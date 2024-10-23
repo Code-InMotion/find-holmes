@@ -9,8 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#FFCC4E",
+        light: "#FDD985",
+        mainText: "#5B1924",
+        subText: "#9D2B3A",
+        white: "#FFFFFF",
+      },
+      fontFamily: {
+        sans: ["SBAggroB"],
+      },
+      fontWeight: {
+        light: "300",
+        medium: "500",
+        bold: "700",
       },
     },
   },
