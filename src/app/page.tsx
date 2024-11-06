@@ -1,17 +1,32 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+
 export default function Home() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  const handleImageClick = () => {
+    setIsFadingOut(true);
+  };
+
+  const handleAnimationEnd = () => {
+    setIsVisible(false);
+  };
+
   return (
     <>
-      <div>
-        <p className="font-sans  font-light text-lg">
-          Hello, this text uses the SBAggroB font! 안녕하세요
-        </p>
-        <p className="font-sans font-medium text-lg">
-          Hello, this text uses the SBAggroB font! 안녕하세요
-        </p>
-        <p className="font-sans font-bold text-lg">
-          Hello, this text uses the SBAggroB font! 안녕하세요
-        </p>
-      </div>
+      {isVisible && (
+        <Image
+          src="/images/main.svg"
+          alt=""
+          fill
+          onClick={handleImageClick}
+          onAnimationEnd={handleAnimationEnd}
+          className={isFadingOut ? "animate-fade-out" : ""}
+          style={{ cursor: "pointer" }}
+        />
+      )}
     </>
   );
 }
