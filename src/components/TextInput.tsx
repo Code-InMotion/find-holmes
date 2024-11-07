@@ -22,9 +22,9 @@ export default function TextInput({
         type="text"
         onChange={onChange}
         className="bg-white 
-            w-[420px] h-[41px] 
+            w-full h-[41px] 
             border 
-            border-subText 
+            border-brown-light 
             border-solid 
             rounded-[10px] 
             px-[17px] 

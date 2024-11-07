@@ -10,8 +10,8 @@ interface IPrimaryButtonProps {
   navigateTo?: string;
 }
 
-const primary = "bg-subText text-primary";
-const disabled = "disabled:bg-subText disabled:text-primary-opacity";
+const primary = "bg-brown-light text-yellow";
+const disabled = "disabled:bg-brown-light disabled:text-yellow-opacity";
 
 const color: Record<ButtonTheme, string> = {
   primary,
@@ -29,10 +29,10 @@ export default function Button({
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (navigateTo) {
-      event.preventDefault(); // 기본 onClick 이벤트 방지
+      event.preventDefault();
       router.push(navigateTo);
     } else {
-      onClick(event); // navigateTo가 없으면 일반 onClick 호출
+      onClick(event);
     }
   };
 
