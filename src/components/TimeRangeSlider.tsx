@@ -7,7 +7,7 @@ interface RangeSliderProps {
   max: number;
 }
 
-const RangeSlider: React.FC<RangeSliderProps> = ({ min, max }) => {
+export default function TimeRangeSlider({ min, max }: RangeSliderProps) {
   const [rangeValues, setRangeValues] = useState<[number, number]>([min, max]);
 
   const handleRangeChange = (values: number | number[]) => {
@@ -30,19 +30,19 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ min, max }) => {
             {
               backgroundColor: "#ffffff",
               borderColor: "#9D2B3A",
-              width: 22,
-              height: 22,
+              width: 24,
+              height: 24,
               marginTop: -8,
             },
             {
               backgroundColor: "#ffffff",
               borderColor: "#9D2B3A",
-              width: 22,
-              height: 22,
+              width: 24,
+              height: 24,
               marginTop: -8,
             },
           ]}
-          railStyle={{ backgroundColor: "#FDD985", height: 8 }}
+          railStyle={{ backgroundColor: "rgba(243, 243, 243, 0.7)", height: 8 }}
         />
       </div>
       <div className="flex justify-between mt-[13px] font-light text-brown-light text-xs">
@@ -51,6 +51,4 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ min, max }) => {
       </div>
     </div>
   );
-};
-
-export default RangeSlider;
+}

@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "red-light": "#FF796D",
         yellow: "#FFCC4E",
         "yellow-light": "#FDD985",
         "brown-light": "#9D2B3A",
