@@ -3,5 +3,5 @@ interface ILabelProps {
 }
 
 export default function Label({ children }: ILabelProps) {
-  return <span className="label text-mainText text-lg">{children}</span>;
+  return <span className="label text-mainText text-lg mb-4">{children}</span>;
 }
