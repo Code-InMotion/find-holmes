@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "next": "14.2.16",
+    "rc-slider": "^11.1.7",
+    "rc-tooltip": "^6.2.1",
     "react": "^18",
     "react-dom": "^18"
   },
