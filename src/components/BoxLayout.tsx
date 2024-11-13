@@ -1,6 +1,6 @@
 interface IBoxLayoutProps {
-  height: number;
-  paddingY: number;
+  height?: number;
+  paddingY?: number;
   children: React.ReactNode;
 }
 
@@ -11,7 +11,7 @@ export default function BoxLayout({
 }: IBoxLayoutProps) {
   return (
     <div
-      className="flex w-full border-b border-yellow-light"
+      className="w-full border-b border-yellow-light"
       style={{
         height: `${height}px`,
         paddingTop: `${paddingY}px`,
