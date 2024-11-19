@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex items-center justify-center">
-        <div className="max-w-[380px] w-screen h-screen bg-primary">
+        <div className="max-w-[380px] w-screen h-screen bg-yellow">
           {children}
         </div>
       </body>

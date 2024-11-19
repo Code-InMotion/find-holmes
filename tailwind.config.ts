@@ -9,11 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#FFCC4E",
-        light: "#FDD985",
-        mainText: "#5B1924",
-        subText: "#9D2B3A",
+        "red-light": "#FF796D",
+        yellow: "#FFCC4E",
+        "yellow-light": "#FDD985",
+        "brown-light": "#9D2B3A",
+        "brown-dark": "#350C18",
         white: "#FFFFFF",
+        "yellow-opacity": "rgba(255, 204, 78, 0.4)",
+        "gray-opacity": "rgba(243, 243, 243, 0.7)",
       },
       fontFamily: {
         sans: ["SBAggroB"],

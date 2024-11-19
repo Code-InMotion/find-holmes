@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Header from "@/components/Header";
+import Label from "@/components/Label";
 
 const meta = {
-  title: "Text/Header",
-  component: Header,
+  title: "Text/Label",
+  component: Label,
   parameters: {
     layout: "centered",
   },
@@ -12,17 +12,17 @@ const meta = {
   argTypes: {
     children: {
       control: "text",
-      description: "Header에 표시될 텍스트",
-      defaultValue: "조건에 맞는 지역 TOP 5",
+      description: "Label에 표시될 텍스트",
+      defaultValue: "1. 회사 또는 학교를 입력해주세요.",
     },
   },
-} satisfies Meta<typeof Header>;
+} satisfies Meta<typeof Label>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "조건에 맞는 지역 TOP 5",
+    children: "1. 회사 또는 학교를 입력해주세요.",
   },
 };

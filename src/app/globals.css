@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-sans; /* Tailwind의 기본 sans-serif 폰트가 body에 적용 */
+  }
+}
+
 @font-face {
   font-family: "SBAggroB";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff")
@@ -24,4 +30,22 @@
     format("woff");
   font-weight: 500;
   font-style: normal;
+}
+
+.rc-slider-handle {
+  outline: none;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  border: 2px solid #9d2b3a !important;
+  box-shadow: none;
+}
+
+.rc-slider-handle:focus,
+.rc-slider-handle:active {
+  border-color: #9d2b3a;
+  box-shadow: 0 0 0 5px rgba(157, 43, 58, 0.4) !important;
+}
+
+.rc-slider-handle:focus:not(:active) {
+  box-shadow: none !important;
 }
