@@ -1,3 +1,4 @@
+"use client";
 import PropertyListItem from "./PropertyListItem";
 
 export default function PropertyList() {
