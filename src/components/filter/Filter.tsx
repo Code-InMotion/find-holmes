@@ -19,6 +19,10 @@ export default function Filter() {
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // 기본 동작 방지
+  };
+
   const handleInputChange =
     (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setFormValues(prev => ({ ...prev, [field]: e.target.value }));
@@ -69,7 +73,10 @@ export default function Filter() {
   }, [formValues]);
 
   return (
-    <form className="flex flex-col gap-[38px] py-[40px]">
+    <form
+      onSubmit={handleFormSubmit}
+      className="flex flex-col gap-[38px] py-[40px]"
+    >
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
         placeholder="회사/학교"
