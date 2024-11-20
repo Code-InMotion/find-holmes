@@ -30,7 +30,7 @@ export default function Home() {
         />
       )}
 
-      {!isVisible && <Filter />}
+      <Filter />
     </div>
   );
 }
