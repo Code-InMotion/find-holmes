@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Slider from "rc-slider";
-import RangeSlider from "@/components/RangeSlider";
+
+import Filter from "@/components/filter/Filter";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(true);
@@ -17,8 +17,8 @@ export default function Home() {
   };
 
   return (
-    <div className="px-4 py-5">
-      {/* {isVisible && (
+    <div className="px-[26px]">
+      {isVisible && (
         <Image
           src="/images/main.svg"
           alt=""
@@ -28,9 +28,11 @@ export default function Home() {
           className={isFadingOut ? "animate-fade-out" : ""}
           style={{ cursor: "pointer" }}
         />
-      )} */}
+      )}
 
-      <RangeSlider min={0} max={100} />
+      <div>
+        <Filter />
+      </div>
     </div>
   );
 }
