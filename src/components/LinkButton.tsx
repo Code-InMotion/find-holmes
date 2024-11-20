@@ -43,7 +43,7 @@ export default function Button({
 
   return (
     <button
-      className={`w-full h-[50px] rounded-[10px] text-xl font-medium  ${disabled} ${color[theme]}`}
+      className={`w-full h-[50px] rounded-[10px] text-sm font-medium  ${disabled} ${color[theme]}`}
       disabled={isDisabled}
       onClick={handleClick}
     >

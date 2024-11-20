@@ -21,7 +21,8 @@ export default function TextInput({
         value={value}
         type="text"
         onChange={onChange}
-        className="bg-white 
+        className="
+          bg-white 
             w-full h-[41px] 
             border 
             border-brown-light 
@@ -29,7 +30,7 @@ export default function TextInput({
             rounded-[10px] 
             px-[17px] 
             font-light 
-            placeholder:text-sm 
+            placeholder:text-xs 
             placeholder:font-light"
       />
     </div>

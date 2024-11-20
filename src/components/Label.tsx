@@ -4,8 +4,6 @@ interface ILabelProps {
 
 export default function Label({ children }: ILabelProps) {
   return (
-    <span className=" block label text-brown-dark text-lg mb-4">
-      {children}
-    </span>
+    <span className="block label text-brown-dark text-sm mb-4">{children}</span>
   );
 }

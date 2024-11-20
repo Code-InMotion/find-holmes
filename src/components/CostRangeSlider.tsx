@@ -42,7 +42,7 @@ export default function CostRangeSlider({ min, max, type }: RangeSliderProps) {
   return (
     <div className="relative w-full px-2">
       {/* 상단 제목과 범위 표시 */}
-      <div className="flex justify-between mb-2 font-light text-[15px]">
+      <div className="flex justify-between mb-2 font-light text-xs">
         <span className=" text-brown-dark">{type}</span>
         <span className="text-brown-light">
           {formatCurrency(rangeValues[0])} ~{" "}
