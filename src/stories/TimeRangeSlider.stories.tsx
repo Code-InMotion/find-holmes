@@ -27,6 +27,14 @@ const meta = {
       description: "슬라이더의 최대값",
       defaultValue: 80,
     },
+    value: {
+      control: false,
+      description: "현재 선택된 슬라이더 값",
+    },
+    onChange: {
+      action: "onChange",
+      description: "슬라이더 값 변경 핸들러",
+    },
   },
 } satisfies Meta<typeof TimeRangeSlider>;
 
