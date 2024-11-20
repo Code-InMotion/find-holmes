@@ -26,7 +26,7 @@ export default function Home() {
           onClick={handleImageClick}
           onAnimationEnd={handleAnimationEnd}
           className={isFadingOut ? "animate-fade-out" : ""}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", zIndex: "100" }}
         />
       )}
 
