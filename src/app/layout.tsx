@@ -9,7 +9,6 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
 
-  // /result 페이지일 경우 left-align, 아니면 center-align
   const isResultPage = pathname === "/result";
 
   return (
@@ -21,7 +20,7 @@ export default function RootLayout({
             : "items-center justify-center"
         }`}
       >
-        <div className="max-w-[380px] w-screen h-screen bg-yellow overflow-y-auto scroll-hidden">
+        <div className={`w-full h-screen ${isResultPage ? "flex" : ""}`}>
           {children}
         </div>
       </body>
