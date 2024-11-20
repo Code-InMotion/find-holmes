@@ -12,11 +12,13 @@ export default function TopListItem({
   onClick,
 }: ITopListItemProps) {
   return (
-    <div className="w-full h-[80px] bg-yellow-light rounded-[10px] flex items-center justify-between py-[22px] px-4 mb-[57px]">
+    <div className="w-full h-[80px] bg-yellow-light rounded-[10px] flex items-center justify-between py-[22px] px-4 mb-[30px]">
       <div className="flex">
-        <span className="text-brown-light mr-[17px] text-5xl">{rank}</span>
+        <span className="flex items-center text-brown-light mr-[17px] text-4xl">
+          {rank}
+        </span>
         <div className="flex flex-col text-brown-dark">
-          <span className="text-xl mb-[7px]">{region}</span>
+          <span className="text-lg mb-[3px]">{region}</span>
           <span className="font-light text-[10px]">{description}</span>
         </div>
       </div>

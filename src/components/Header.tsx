@@ -3,5 +3,9 @@ interface IHeaderProps {
 }
 
 export default function Header({ children }: IHeaderProps) {
-  return <span className="text-brown-light text-2xl">{children}</span>;
+  return (
+    <span className="flex justify-center text-brown-light text-xl">
+      {children}
+    </span>
+  );
 }
