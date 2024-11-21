@@ -49,3 +49,13 @@
 .rc-slider-handle:focus:not(:active) {
   box-shadow: none !important;
 }
+
+/* 모든 브라우저에서 스크롤바를 숨기기 */
+.scroll-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

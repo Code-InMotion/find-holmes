@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 interface RangeSliderProps {
   min: number;
   max: number;
+  value: [number, number];
+  onChange: (values: [number, number]) => void;
 }
 
-export default function TimeRangeSlider({ min, max }: RangeSliderProps) {
+export default function TimeRangeSlider({
+  min,
+  max,
+  value,
+  onChange,
+}: RangeSliderProps) {
   const [rangeValues, setRangeValues] = useState<[number, number]>([min, max]);
+
+  useEffect(() => {
+    setRangeValues(value || [min, max]); // 외부에서 value 변경 시 내부 상태 업데이트
+  }, [value, min, max]);
 
   const handleRangeChange = (values: number | number[]) => {
     if (Array.isArray(values) && values.length === 2) {
       setRangeValues([values[0], values[1]]);
+      onChange([values[0], values[1]]); // 부모 컴포넌트에 값 전달
     }
   };
 

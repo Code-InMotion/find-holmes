@@ -25,10 +25,10 @@ export default function PropertyListItem({
         className="flex py-[19px] text-brown-dark cursor-pointer"
         onClick={onClick}
       >
-        <div className="w-[40px] h-[40px] mr-[10px]  bg-slate-200"></div>
+        <div className="w-[40px] h-[40px] mr-[10px] bg-slate-200"></div>
         <div className="w-full flex flex-col">
           <div className="flex items-center justify-between">
-            <span className="text-lg">
+            <span className="text-sm">
               {rentType} {price}
             </span>
             <span className="text-sm">{address}</span>

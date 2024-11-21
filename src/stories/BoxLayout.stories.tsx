@@ -17,18 +17,13 @@ const meta = {
     ),
   ],
   argTypes: {
-    height: {
-      control: "number",
-      description: "BoxLayout의 높이",
-      defaultValue: 80,
-    },
-    paddingY: {
-      control: "number",
-      description: "BoxLayout의 상하 패딩",
-      defaultValue: 18,
-    },
     children: {
       description: "BoxLayout 안에 들어갈 내용",
+    },
+    className: {
+      control: "text",
+      description: "BoxLayout의 CSS 클래스",
+      defaultValue: "text-center",
     },
   },
 } satisfies Meta<typeof BoxLayout>;
@@ -38,8 +33,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    height: 80,
-    paddingY: 18,
     children: "",
+    className: "text-center",
   },
 };

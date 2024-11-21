@@ -3,20 +3,29 @@ import TagButton from "./TagButton";
 
 interface ITagListProps {
   tagList: string[];
-  onTagClick: (tag: string) => void;
+  onChange?: (selectedTags: string[] | string) => void;
+  isSingleSelect?: boolean;
 }
 
-export default function TagList({ tagList, onTagClick }: ITagListProps) {
+export default function TagList({
+  tagList,
+  onChange,
+  isSingleSelect,
+}: ITagListProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const handleTagClick = (tag: string) => {
-    setSelectedTags(
-      prevTags =>
-        prevTags.includes(tag)
-          ? prevTags.filter(t => t !== tag) // 이미 선택된 태그면 제거
-          : [...prevTags, tag] // 선택되지 않은 태그면 추가
-    );
-    onTagClick(tag);
+    let updatedTags: string[] | string;
+    if (isSingleSelect) {
+      updatedTags = selectedTags.includes(tag) ? [] : [tag];
+    } else {
+      updatedTags = selectedTags.includes(tag)
+        ? selectedTags.filter(t => t !== tag)
+        : [...selectedTags, tag];
+    }
+
+    setSelectedTags(Array.isArray(updatedTags) ? updatedTags : [updatedTags]);
+    if (onChange) onChange(isSingleSelect ? updatedTags[0] : updatedTags);
   };
 
   return (

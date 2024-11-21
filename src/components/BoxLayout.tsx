@@ -1,22 +1,12 @@
 interface IBoxLayoutProps {
-  height?: number;
-  paddingY?: number;
   children: React.ReactNode;
+  className?: string;
 }
 
-export default function BoxLayout({
-  height,
-  paddingY,
-  children,
-}: IBoxLayoutProps) {
+export default function BoxLayout({ children, className }: IBoxLayoutProps) {
   return (
     <div
-      className="w-full border-b border-yellow-light"
-      style={{
-        height: `${height}px`,
-        paddingTop: `${paddingY}px`,
-        paddingBottom: `${paddingY}px`,
-      }}
+      className={`w-full h-[70px] border-b border-yellow-light ${className}`}
     >
       {children}
     </div>

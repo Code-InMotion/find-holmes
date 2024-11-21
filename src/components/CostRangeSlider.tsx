@@ -1,29 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 interface RangeSliderProps {
   min: number;
   max: number;
+  value: [number, number] | null;
+  onChange: (values: [number, number]) => void;
   type: "전세/매매/보증금" | "월세";
 }
 
-export default function CostRangeSlider({ min, max, type }: RangeSliderProps) {
+export default function CostRangeSlider({
+  min,
+  max,
+  type,
+  value,
+  onChange,
+}: RangeSliderProps) {
   const [rangeValues, setRangeValues] = useState<[number, number]>([min, max]);
   const [isMaxUnlimited, setIsMaxUnlimited] = useState(true);
   const midpoint = Math.floor((min + max) / 2); // 중앙 기준값 계산
+
+  // value가 변경되면 내부 상태 동기화
+  useEffect(() => {
+    if (value) {
+      setRangeValues(value);
+      setIsMaxUnlimited(value[1] === max); // 오른쪽 핸들이 max인지 확인
+    }
+  }, [value, max]);
 
   // 슬라이더 값 변경 핸들러
   const handleRangeChange = (values: number | number[]) => {
     if (Array.isArray(values) && values.length === 2) {
       setRangeValues([values[0], values[1]]);
-      if (values[1] !== max) {
-        setIsMaxUnlimited(false); // 오른쪽 핸들을 움직이면 "무제한" 대신 숫자 표시
-      } else {
-        setIsMaxUnlimited(true); // 오른쪽 값이 max와 같으면 다시 "무제한"으로 표시
-      }
+      onChange([values[0], values[1]]); // 부모 컴포넌트에 값 전달
+      setIsMaxUnlimited(values[1] === max); // 최대값 상태 업데이트
     }
   };
+
+  // 슬라이더 값 변경 핸들러
+  // const handleRangeChange = (values: number | number[]) => {
+  //   if (Array.isArray(values) && values.length === 2) {
+  //     setRangeValues([values[0], values[1]]);
+  //     if (values[1] !== max) {
+  //       setIsMaxUnlimited(false); // 오른쪽 핸들을 움직이면 "무제한" 대신 숫자 표시
+  //     } else {
+  //       setIsMaxUnlimited(true); // 오른쪽 값이 max와 같으면 다시 "무제한"으로 표시
+  //     }
+  //   }
+  // };
 
   // 금액 형식을 설정하는 함수 (100만 원 단위 이상에서만 값 표시)
   const formatCurrency = (value: number) => {
@@ -42,7 +67,7 @@ export default function CostRangeSlider({ min, max, type }: RangeSliderProps) {
   return (
     <div className="relative w-full px-2">
       {/* 상단 제목과 범위 표시 */}
-      <div className="flex justify-between mb-2 font-light text-[15px]">
+      <div className="flex justify-between mb-2 font-light text-xs">
         <span className=" text-brown-dark">{type}</span>
         <span className="text-brown-light">
           {formatCurrency(rangeValues[0])} ~{" "}

@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 
 export default function RootLayout({
@@ -5,10 +7,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  const isResultPage = pathname === "/result";
+
   return (
     <html lang="en">
-      <body className="flex items-center justify-center">
-        <div className="max-w-[380px] w-screen h-screen bg-yellow">
+      <body
+        className={`flex ${
+          isResultPage
+            ? "items-start justify-start"
+            : "items-center justify-center"
+        }`}
+      >
+        <div className={`w-full h-screen ${isResultPage ? "flex" : ""}`}>
           {children}
         </div>
       </body>
