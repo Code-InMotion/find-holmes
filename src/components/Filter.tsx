@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import Label from "../Label";
-import TextInput from "../TextInput";
-import TimeRangeSlider from "../TimeRangeSlider";
-import TagList from "../TagList";
-import CostRangeSlider from "../CostRangeSlider";
-import Button from "../LinkButton";
+import TextInput from "./TextInput";
+import Label from "./Label";
+import TimeRangeSlider from "./TimeRangeSlider";
+import TagList from "./TagList";
+import CostRangeSlider from "./CostRangeSlider";
+import Button from "./LinkButton";
 
 export default function Filter() {
   const [formValues, setFormValues] = useState({
@@ -79,7 +79,7 @@ export default function Filter() {
     >
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
-        placeholder="회사/학교"
+        placeholder="주소를 입력해주세요. (서울시 서대문구 현저동 941)"
         value={formValues.companyOrSchool}
         onChange={handleInputChange("companyOrSchool")}
       />

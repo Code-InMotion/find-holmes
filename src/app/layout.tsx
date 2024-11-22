@@ -22,7 +22,9 @@ export default function RootLayout({
       >
         <div
           className={`${
-            isResultPage ? "w-full h-screen flex" : "w-[380px] h-100% bg-yellow"
+            isResultPage
+              ? "w-full h-screen flex"
+              : "w-[380px] h-screen bg-yellow overflow-y-auto"
           }`}
         >
           {children}
