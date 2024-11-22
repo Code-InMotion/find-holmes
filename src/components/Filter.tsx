@@ -79,7 +79,7 @@ export default function Filter() {
     >
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
-        placeholder="회사/학교"
+        placeholder="주소를 입력해주세요. (서울시 서대문구 현저동 941)"
         value={formValues.companyOrSchool}
         onChange={handleInputChange("companyOrSchool")}
       />

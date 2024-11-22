@@ -30,6 +30,7 @@ export default function TextInput({
             rounded-[10px] 
             px-[17px] 
             font-light 
+            text-xs
             placeholder:text-xs 
             placeholder:font-light"
       />
