@@ -4,7 +4,30 @@ import { Dispatch, SetStateAction } from "react";
 
 declare global {
   interface Window {
-    kakao: any;
+    kakao: {
+      maps: {
+        load: (callback: () => void) => void;
+        LatLng: new (lat: number, lng: number) => LatLng;
+        Map: new (container: HTMLElement, options: MapOptions) => KakaoMap;
+      };
+    };
+  }
+
+  interface LatLng {
+    lat: () => number;
+    lng: () => number;
+  }
+
+  interface MapOptions {
+    center: LatLng;
+    level: number;
+  }
+
+  interface KakaoMap {
+    setCenter: (latLng: LatLng) => void;
+    getCenter: () => LatLng;
+    setLevel: (level: number) => void;
+    getLevel: () => number;
   }
 }
 
@@ -13,7 +36,7 @@ const DEFAULT_LNG = 127.03888379;
 const DEFAULT_ZOOM = 3;
 
 interface IMapProps {
-  setMap: Dispatch<SetStateAction<any>>;
+  setMap: Dispatch<SetStateAction<KakaoMap | null>>;
   lat?: string | null;
   lng?: string | null;
   zoom?: string | null;
@@ -22,11 +45,11 @@ interface IMapProps {
 export default function Map({ setMap, lat, lng, zoom }: IMapProps) {
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
-      const mapContainer = document.getElementById("map"); // 지도를 표시할 div
+      const mapContainer = document.getElementById("map") as HTMLElement; // 지도를 표시할 div
       const mapOption = {
         center: new window.kakao.maps.LatLng(
-          lat ? parseFloat(lat) : DEFAULT_LAT, // 위도를 상태로 설정 (null 값 처리)
-          lng ? parseFloat(lng) : DEFAULT_LNG // 경도를 상태로 설정 (null 값 처리)
+          lat ? parseFloat(lat) : DEFAULT_LAT,
+          lng ? parseFloat(lng) : DEFAULT_LNG
         ), // 지도의 중심 좌표
         level: zoom ? parseInt(zoom) : DEFAULT_ZOOM, // 지도의 확대 레벨
       };

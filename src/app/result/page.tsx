@@ -1,14 +1,20 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import BoxLayout from "@/components/BoxLayout";
 import Header from "@/components/Header";
 import PropertyDetail from "@/components/result/PropertyDetail";
 import Map from "@/components/result/Map";
 
-export default function page() {
-  const [map, setMap] = useState(null);
+export default function Page() {
+  const [map, setMap] = useState<KakaoMap | null>(null);
+
+  useEffect(() => {
+    if (map) {
+      console.log("Map instance:", map); // map이 업데이트될 때만 로그 출력
+    }
+  }, [map]);
 
   return (
     <div className="flex w-full h-screen">

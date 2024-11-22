@@ -45,5 +45,7 @@ export const Default: Story = {
   args: {
     min: 0,
     max: 80,
+    value: [10, 70], // 초기 값 설정
+    onChange: values => console.log("Slider values changed:", values), // 슬라이더 변경 시 동작 정의
   },
 };
