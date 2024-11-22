@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import Label from "../Label";
-import TextInput from "../TextInput";
-import TimeRangeSlider from "../TimeRangeSlider";
-import TagList from "../TagList";
-import CostRangeSlider from "../CostRangeSlider";
-import Button from "../LinkButton";
+import TextInput from "./TextInput";
+import Label from "./Label";
+import TimeRangeSlider from "./TimeRangeSlider";
+import TagList from "./TagList";
+import CostRangeSlider from "./CostRangeSlider";
+import Button from "./LinkButton";
 
 export default function Filter() {
   const [formValues, setFormValues] = useState({

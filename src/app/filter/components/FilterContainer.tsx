@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import Filter from "@/components/filter/Filter";
+import Filter from "@/components/Filter";
 
 export default function FilterContainer() {
   const [isVisible, setIsVisible] = useState(true);

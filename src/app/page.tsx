@@ -1,4 +1,4 @@
-import FilterContainer from "./filter/FilterContainer";
+import FilterContainer from "./filter/components/FilterContainer";
 
 export default function Home() {
   return (
