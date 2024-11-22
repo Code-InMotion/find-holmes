@@ -1,4 +1,4 @@
-import BoxLayout from "../BoxLayout";
+import BoxLayout from "./BoxLayout";
 
 interface IPropertyDetailProps {
   label: string;
