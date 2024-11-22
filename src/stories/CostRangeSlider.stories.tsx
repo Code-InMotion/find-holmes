@@ -43,6 +43,8 @@ export const Default: Story = {
     min: 0,
     max: 300000000,
     type: "전세/매매/보증금",
+    value: [0, 300000000], // 기본 범위 값 설정
+    onChange: values => console.log("Slider updated:", values), // 값 변경 로깅
   },
 };
 
@@ -51,5 +53,7 @@ export const Rent: Story = {
     min: 0,
     max: 3500000, // 월세 최대값
     type: "월세",
+    value: [0, 3500000], // 월세 범위 값 설정
+    onChange: values => console.log("Slider updated:", values), // 값 변경 로깅
   },
 };

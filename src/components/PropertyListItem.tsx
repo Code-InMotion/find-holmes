@@ -11,7 +11,7 @@ interface IPropertyListItem {
 }
 
 export default function PropertyListItem({
-  imageUrl,
+  // imageUrl,
   rentType,
   price,
   timeRequired,
