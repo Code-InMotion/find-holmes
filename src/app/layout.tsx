@@ -20,7 +20,11 @@ export default function RootLayout({
             : "items-center justify-center"
         }`}
       >
-        <div className={`w-full h-screen ${isResultPage ? "flex" : ""}`}>
+        <div
+          className={`${
+            isResultPage ? "w-full h-screen flex" : "w-[380px] h-100% bg-yellow"
+          }`}
+        >
           {children}
         </div>
       </body>
