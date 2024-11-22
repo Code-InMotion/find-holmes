@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div className="px-[26px]">
-      {isVisible && (
+      {isVisible ? (
         <Image
           src="/images/main.svg"
           alt=""
@@ -28,9 +28,9 @@ export default function Home() {
           className={isFadingOut ? "animate-fade-out" : ""}
           style={{ cursor: "pointer", zIndex: "100" }}
         />
+      ) : (
+        <Filter />
       )}
-
-      <Filter />
     </div>
   );
 }
