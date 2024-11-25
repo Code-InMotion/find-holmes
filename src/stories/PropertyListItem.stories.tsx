@@ -18,11 +18,6 @@ const meta = {
     ),
   ],
   argTypes: {
-    imageUrl: {
-      control: "text",
-      description: "아이콘 URL",
-      defaultValue: "",
-    },
     rentType: {
       control: "text",
       description: "매물 유형",
@@ -57,7 +52,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    imageUrl: "",
     rentType: "월세",
     price: "1000/100",
     timeRequired: 35,

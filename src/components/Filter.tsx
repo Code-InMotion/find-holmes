@@ -9,7 +9,7 @@ import Button from "./LinkButton";
 
 export default function Filter() {
   const [formValues, setFormValues] = useState({
-    companyOrSchool: "",
+    address: "",
     commuteTime: [0, 80] as [number, number],
     propertyType: [] as string[],
     transactionType: [] as string[],
@@ -20,12 +20,17 @@ export default function Filter() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // 기본 동작 방지
+    event.preventDefault();
   };
 
   const handleInputChange =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFormValues(prev => ({ ...prev, [field]: e.target.value }));
+    (field: string) =>
+    (e: React.ChangeEvent<HTMLInputElement> | string): void => {
+      if (typeof e === "string") {
+        setFormValues(prev => ({ ...prev, [field]: e }));
+      } else {
+        setFormValues(prev => ({ ...prev, [field]: e.target.value }));
+      }
     };
 
   const handleCommuteTimeChange = (values: [number, number]) => {
@@ -57,19 +62,13 @@ export default function Filter() {
   const priorityTags = ["시간", "예산"];
 
   useEffect(() => {
-    const hasValues =
-      formValues.companyOrSchool ||
-      formValues.propertyType.length > 0 ||
-      formValues.transactionType.length > 0 ||
-      formValues.priority ||
-      formValues.commuteTime[0] !== 0 ||
-      formValues.commuteTime[1] !== 80 ||
-      formValues.deposit[0] !== 0 ||
-      formValues.deposit[1] !== 300000000 ||
-      formValues.monthly[0] !== 0 ||
-      formValues.monthly[1] !== 3500000;
+    const requiredFieldsSelected =
+      formValues.address.trim() !== "" &&
+      formValues.propertyType.length > 0 &&
+      formValues.transactionType.length > 0 &&
+      formValues.priority.trim() !== "";
 
-    setIsButtonDisabled(!hasValues);
+    setIsButtonDisabled(!requiredFieldsSelected);
   }, [formValues]);
 
   return (
@@ -79,9 +78,9 @@ export default function Filter() {
     >
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
-        placeholder="주소를 입력해주세요. (서울시 서대문구 현저동 941)"
-        value={formValues.companyOrSchool}
-        onChange={handleInputChange("companyOrSchool")}
+        placeholder="서울시 서대문구 현저동 941"
+        value={formValues.address}
+        onChange={handleInputChange("address")}
       />
 
       <div>
@@ -142,7 +141,7 @@ export default function Filter() {
       <Button
         theme={isButtonDisabled ? "disabled" : "primary"}
         isDisabled={isButtonDisabled}
-        onClick={() => alert("Filter 적용 완료")}
+        onClick={() => {}}
         navigateTo="/top-5"
       >
         지역 추천

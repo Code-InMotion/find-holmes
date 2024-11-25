@@ -28,10 +28,10 @@ const meta = {
       description: "TopListItem에서 지역명",
       defaultValue: "군포시 재정동",
     },
-    description: {
-      control: "text",
+    count: {
+      control: "number",
       description: "TopListItem에서 지역에 대한 매물 갯수 정보",
-      defaultValue: "13개의 매물이 있습니다.",
+      defaultValue: 13,
     },
   },
   args: { onClick: fn() },
@@ -44,6 +44,6 @@ export const Default: Story = {
   args: {
     rank: 1,
     region: "군포시 재정동",
-    description: "13개의 매물이 있습니다.",
+    count: 13,
   },
 };
