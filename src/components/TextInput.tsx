@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DaumPostcode from "react-daum-postcode";
 
 import Label from "./Label";
+import dynamic from "next/dynamic";
 
 interface ITextInputProps {
   label: string;
@@ -9,6 +9,10 @@ interface ITextInputProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement> | string) => void;
 }
+
+const DaumPostcode = dynamic(() => import("react-daum-postcode"), {
+  ssr: false,
+});
 
 export default function TextInput({
   label,
