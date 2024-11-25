@@ -62,19 +62,13 @@ export default function Filter() {
   const priorityTags = ["시간", "예산"];
 
   useEffect(() => {
-    const hasValues =
-      formValues.address ||
-      formValues.propertyType.length > 0 ||
-      formValues.transactionType.length > 0 ||
-      formValues.priority ||
-      formValues.commuteTime[0] !== 0 ||
-      formValues.commuteTime[1] !== 80 ||
-      formValues.deposit[0] !== 0 ||
-      formValues.deposit[1] !== 300000000 ||
-      formValues.monthly[0] !== 0 ||
-      formValues.monthly[1] !== 3500000;
+    const requiredFieldsSelected =
+      formValues.address.trim() !== "" &&
+      formValues.propertyType.length > 0 &&
+      formValues.transactionType.length > 0 &&
+      formValues.priority.trim() !== "";
 
-    setIsButtonDisabled(!hasValues);
+    setIsButtonDisabled(!requiredFieldsSelected);
   }, [formValues]);
 
   return (
@@ -147,7 +141,7 @@ export default function Filter() {
       <Button
         theme={isButtonDisabled ? "disabled" : "primary"}
         isDisabled={isButtonDisabled}
-        onClick={() => alert("Filter 적용 완료")}
+        onClick={() => {}}
         navigateTo="/top-5"
       >
         지역 추천
