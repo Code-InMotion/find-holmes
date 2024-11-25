@@ -1,14 +1,14 @@
 interface ITopListItemProps {
   rank: number;
   region: string;
-  description: string;
+  count: number;
   onClick: () => void;
 }
 
 export default function TopListItem({
   rank,
   region,
-  description,
+  count,
   onClick,
 }: ITopListItemProps) {
   return (
@@ -19,7 +19,9 @@ export default function TopListItem({
         </span>
         <div className="flex flex-col text-brown-dark">
           <span className="text-lg mb-[3px]">{region}</span>
-          <span className="font-light text-[10px]">{description}</span>
+          <span className="font-light text-[10px]">
+            {count}개의 매물이 있습니다.
+          </span>
         </div>
       </div>
       <button className="text-brown-light text-[10px]" onClick={onClick}>
