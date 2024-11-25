@@ -1,7 +1,7 @@
+import Image from "next/image";
 import BoxLayout from "./BoxLayout";
 
 interface IPropertyListItem {
-  imageUrl: string;
   rentType: string;
   price: string;
   timeRequired: number;
@@ -11,7 +11,6 @@ interface IPropertyListItem {
 }
 
 export default function PropertyListItem({
-  // imageUrl,
   rentType,
   price,
   timeRequired,
@@ -25,7 +24,13 @@ export default function PropertyListItem({
         className="flex py-[19px] text-brown-dark cursor-pointer"
         onClick={onClick}
       >
-        <div className="w-[40px] h-[40px] mr-[10px] bg-slate-200"></div>
+        <Image
+          src="/images/apartment.svg"
+          alt=""
+          width={40}
+          height={40}
+          style={{ marginRight: "10px" }}
+        />
         <div className="w-full flex flex-col">
           <div className="flex items-center justify-between">
             <span className="text-sm">
