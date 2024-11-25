@@ -1,10 +1,13 @@
+import { useState } from "react";
+import DaumPostcode from "react-daum-postcode";
+
 import Label from "./Label";
 
 interface ITextInputProps {
   label: string;
   placeholder: string;
   value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: (event: React.ChangeEvent<HTMLInputElement> | string) => void;
 }
 
 export default function TextInput({
@@ -13,17 +16,36 @@ export default function TextInput({
   value,
   onChange,
 }: ITextInputProps) {
+  const [openPostcode, setOpenPostcode] = useState(false);
+
+  const handleClick = () => {
+    setOpenPostcode(true);
+  };
+
+  const handleComplete = (data: { address: string }): void => {
+    onChange(data.address);
+    setOpenPostcode(false);
+  };
+
+  const postCodeStyle = {
+    width: "350px",
+    height: "400px",
+  };
+
   return (
     <div className="flex flex-col">
       <Label>{label}</Label>
-      <input
-        placeholder={placeholder}
-        value={value}
-        type="text"
-        onChange={onChange}
-        className="
+      <div className="flex justify-between">
+        <input
+          placeholder={placeholder}
+          value={value}
+          type="text"
+          onChange={e => onChange(e)}
+          className="
           bg-white 
-            w-full h-[41px] 
+            flex-1
+            mr-2
+            h-[41px] 
             border 
             border-brown-light 
             border-solid 
@@ -33,7 +55,22 @@ export default function TextInput({
             text-xs
             placeholder:text-xs 
             placeholder:font-light"
-      />
+        />
+        <button
+          onClick={handleClick}
+          className="px-[8px] h-[41px] rounded-[8px] bg-brown-light font-light text-xs text-yellow"
+        >
+          주소검색
+        </button>
+        {openPostcode && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            onClick={() => setOpenPostcode(false)}
+          >
+            <DaumPostcode style={postCodeStyle} onComplete={handleComplete} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
