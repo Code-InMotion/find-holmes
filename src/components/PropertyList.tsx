@@ -1,7 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
+
 import PropertyListItem from "./PropertyListItem";
 
 export default function PropertyList() {
+  const router = useRouter();
   const items = [
     {
       rentType: "월세",
@@ -20,7 +23,9 @@ export default function PropertyList() {
     },
   ];
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    router.push("/result");
+  };
 
   return (
     <>
