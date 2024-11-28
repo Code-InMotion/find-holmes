@@ -21,6 +21,8 @@ export default function Filter() {
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log("Form Values:", formValues);
   };
 
   const handleInputChange =
@@ -112,20 +114,30 @@ export default function Filter() {
       <div className="mb-[38px]">
         <Label>5. 예상하시는 가격을 입력해주세요.</Label>
         <div className="flex flex-col gap-[60px]">
-          <CostRangeSlider
-            min={0}
-            max={300000000}
-            type="전세/매매/보증금"
-            value={formValues.deposit}
-            onChange={handleCostChange("deposit")}
-          />
-          <CostRangeSlider
-            min={0}
-            max={3500000}
-            type="월세"
-            value={formValues.monthly}
-            onChange={handleCostChange("monthly")}
-          />
+          {/* 초기 상태나 매매/전세가 선택된 경우 보증금 슬라이더 표시 */}
+          {(formValues.transactionType.length === 0 ||
+            formValues.transactionType.includes("매매") ||
+            formValues.transactionType.includes("전세")) && (
+            <CostRangeSlider
+              min={0}
+              max={300000000}
+              type="전세/매매/보증금"
+              value={formValues.deposit}
+              onChange={handleCostChange("deposit")}
+            />
+          )}
+
+          {/* 초기 상태나 월세가 선택된 경우 월세 슬라이더 표시 */}
+          {(formValues.transactionType.length === 0 ||
+            formValues.transactionType.includes("월세")) && (
+            <CostRangeSlider
+              min={0}
+              max={3500000}
+              type="월세"
+              value={formValues.monthly}
+              onChange={handleCostChange("monthly")}
+            />
+          )}
         </div>
       </div>
 
