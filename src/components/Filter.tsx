@@ -7,14 +7,24 @@ import TagList from "./TagList";
 import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
+interface RequestData {
+  address: string;
+  travelTime: number;
+  houseType: string[];
+  tradeType: string[];
+  deposit?: [number, number]; // 선택적 필드
+  monthly?: [number, number]; // 선택적 필드
+  priority: string;
+}
+
 export default function Filter() {
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<RequestData>({
     address: "",
     travelTime: 0,
     houseType: [] as string[], // 매물 유형
     tradeType: [] as string[], // 거래 유형
-    deposit: [0, 300000000] as [number, number],
-    monthly: [0, 3500000] as [number, number],
+    deposit: [0, 300000000],
+    monthly: [0, 3500000],
     priority: "",
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -22,7 +32,30 @@ export default function Filter() {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log("Form Values:", formValues);
+    // 요청 데이터 생성
+    const requestData: RequestData = {
+      address: formValues.address,
+      travelTime: formValues.travelTime,
+      houseType: formValues.houseType,
+      tradeType: formValues.tradeType,
+      priority: formValues.priority,
+    };
+
+    // 조건부로 비용 데이터를 추가
+    if (
+      formValues.tradeType.includes("매매") ||
+      formValues.tradeType.includes("전세")
+    ) {
+      requestData.deposit = formValues.deposit;
+    }
+
+    if (formValues.tradeType.includes("월세")) {
+      requestData.monthly = formValues.monthly;
+    }
+
+    console.log("API 요청 데이터:", requestData);
+
+    // 실제 API 요청 함수 호출 (예: sendApiRequest(requestData))
   };
 
   const handleInputChange =
@@ -122,7 +155,7 @@ export default function Filter() {
               min={0}
               max={300000000}
               type="전세/매매/보증금"
-              value={formValues.deposit}
+              value={formValues.deposit ?? [0, 0]}
               onChange={handleCostChange("deposit")}
             />
           )}
@@ -134,7 +167,7 @@ export default function Filter() {
               min={0}
               max={3500000}
               type="월세"
-              value={formValues.monthly}
+              value={formValues.monthly ?? [0, 0]}
               onChange={handleCostChange("monthly")}
             />
           )}
