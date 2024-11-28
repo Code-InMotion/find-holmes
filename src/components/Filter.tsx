@@ -10,7 +10,7 @@ import Button from "./LinkButton";
 export default function Filter() {
   const [formValues, setFormValues] = useState({
     address: "",
-    commuteTime: [0, 80] as [number, number],
+    travelTime: 0,
     houseType: [] as string[], // 매물 유형
     tradeType: [] as string[], // 거래 유형
     deposit: [0, 300000000] as [number, number],
@@ -35,8 +35,8 @@ export default function Filter() {
       }
     };
 
-  const handleCommuteTimeChange = (values: [number, number]) => {
-    setFormValues(prev => ({ ...prev, commuteTime: values }));
+  const handleTravelTimeChange = (value: number) => {
+    setFormValues(prev => ({ ...prev, travelTime: value })); // 단일 값으로 업데이트
   };
 
   const handleHouseTypeChange = (selectedTags: string[]) => {
@@ -90,8 +90,8 @@ export default function Filter() {
         <TimeRangeSlider
           min={0}
           max={80}
-          value={formValues.commuteTime}
-          onChange={handleCommuteTimeChange}
+          value={formValues.travelTime}
+          onChange={handleTravelTimeChange}
         />
       </div>
 
