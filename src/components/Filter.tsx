@@ -7,27 +7,47 @@ import TagList from "./TagList";
 import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
+import { HouseType, TradeType } from "@/types/property";
+
 interface RequestData {
   address: string;
   travelTime: number;
-  houseType: string[];
-  tradeType: string[];
+  houseType: HouseType[];
+  tradeType: TradeType[];
   deposit?: [number, number]; // 선택적 필드
   monthly?: [number, number]; // 선택적 필드
   priority: string;
 }
 
 export default function Filter() {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [formValues, setFormValues] = useState<RequestData>({
     address: "",
     travelTime: 0,
-    houseType: [] as string[], // 매물 유형
-    tradeType: [] as string[], // 거래 유형
+    houseType: [], // 매물 유형
+    tradeType: [], // 거래 유형
     deposit: [0, 300000000],
     monthly: [0, 3500000],
     priority: "",
   });
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const mapHouseType = (type: string): HouseType => {
+    const mapping: Record<string, HouseType> = {
+      아파트: "APARTMENT",
+      오피스텔: "OFFICETEL",
+      빌라: "VILLA",
+    };
+    return mapping[type];
+  };
+
+  const mapTradeType = (type: string): TradeType => {
+    const mapping: Record<string, TradeType> = {
+      매매: "SALE",
+      전세: "LONG_TERM_RENT",
+      월세: "MONTHLY_RENT",
+    };
+    return mapping[type];
+  };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,19 +63,17 @@ export default function Filter() {
 
     // 조건부로 비용 데이터를 추가
     if (
-      formValues.tradeType.includes("매매") ||
-      formValues.tradeType.includes("전세")
+      formValues.tradeType.includes("SALE") ||
+      formValues.tradeType.includes("LONG_TERM_RENT")
     ) {
       requestData.deposit = formValues.deposit;
     }
 
-    if (formValues.tradeType.includes("월세")) {
+    if (formValues.tradeType.includes("MONTHLY_RENT")) {
       requestData.monthly = formValues.monthly;
     }
 
     console.log("API 요청 데이터:", requestData);
-
-    // 실제 API 요청 함수 호출 (예: sendApiRequest(requestData))
   };
 
   const handleInputChange =
@@ -73,11 +91,17 @@ export default function Filter() {
   };
 
   const handleHouseTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({ ...prev, houseType: selectedTags }));
+    setFormValues(prev => ({
+      ...prev,
+      houseType: selectedTags.map(mapHouseType),
+    }));
   };
 
   const handleTradeTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({ ...prev, tradeType: selectedTags }));
+    setFormValues(prev => ({
+      ...prev,
+      tradeType: selectedTags.map(mapTradeType),
+    }));
   };
 
   const handlePriorityChange = (selectedTag: string) => {
@@ -149,8 +173,8 @@ export default function Filter() {
         <div className="flex flex-col gap-[60px]">
           {/* 초기 상태나 매매/전세가 선택된 경우 보증금 슬라이더 표시 */}
           {(formValues.tradeType.length === 0 ||
-            formValues.tradeType.includes("매매") ||
-            formValues.tradeType.includes("전세")) && (
+            formValues.tradeType.includes("SALE") ||
+            formValues.tradeType.includes("LONG_TERM_RENT")) && (
             <CostRangeSlider
               min={0}
               max={300000000}
@@ -162,7 +186,7 @@ export default function Filter() {
 
           {/* 초기 상태나 월세가 선택된 경우 월세 슬라이더 표시 */}
           {(formValues.tradeType.length === 0 ||
-            formValues.tradeType.includes("월세")) && (
+            formValues.tradeType.includes("MONTHLY_RENT")) && (
             <CostRangeSlider
               min={0}
               max={3500000}

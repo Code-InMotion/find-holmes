@@ -1,5 +1,5 @@
-type TradeType = "SALE" | "MONTHLY_RENT" | "LONG_TERM_RENT";
-type HouseType = "APARTMENT" | "OFFICETEL" | "VILLA";
+export type TradeType = "SALE" | "MONTHLY_RENT" | "LONG_TERM_RENT";
+export type HouseType = "APARTMENT" | "OFFICETEL" | "VILLA";
 
 // 거래 정보 타입 (Trade)
 interface Trade {
