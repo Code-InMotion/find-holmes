@@ -12,6 +12,7 @@ interface ITextInputProps {
 
 const DaumPostcode = dynamic(() => import("react-daum-postcode"), {
   ssr: false,
+  loading: () => null,
 });
 
 export default function TextInput({
@@ -23,7 +24,11 @@ export default function TextInput({
   const [openPostcode, setOpenPostcode] = useState(false);
 
   const handleClick = () => {
-    setOpenPostcode(true);
+    try {
+      setOpenPostcode(true);
+    } catch (error) {
+      console.log("Daum Postcode API 호출 중 에러:", error);
+    }
   };
 
   const handleComplete = (data: { address: string }): void => {
