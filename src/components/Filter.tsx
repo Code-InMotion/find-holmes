@@ -13,7 +13,7 @@ import { HouseType, RequestParams, TradeType } from "@/types/property";
 
 export default function Filter() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [formValues, setFormValues] = useState<RequestParams>({
+  const [requestValues, setRequestValues] = useState<RequestParams>({
     destination: "",
     travelTime: 0,
     sortType: "PRICE",
@@ -43,31 +43,31 @@ export default function Filter() {
     return mapping[type];
   };
 
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    // event.preventDefault();
 
     // 요청 데이터 가공
     const params: RequestParams = {
-      destination: formValues.destination,
-      travelTime: formValues.travelTime,
-      sortType: formValues.sortType,
-      houseType: formValues.houseType,
-      tradeType: formValues.tradeType,
+      destination: requestValues.destination,
+      travelTime: requestValues.travelTime,
+      sortType: requestValues.sortType,
+      houseType: requestValues.houseType,
+      tradeType: requestValues.tradeType,
     };
 
     // 매매/전세만 선택된 경우에만 minPrice, maxPrice 포함
     if (
-      formValues.tradeType?.includes("SALE") ||
-      formValues.tradeType?.includes("LONG_TERM_RENT")
+      requestValues.tradeType?.includes("SALE") ||
+      requestValues.tradeType?.includes("LONG_TERM_RENT")
     ) {
-      params.minPrice = formValues.minPrice ?? 0;
-      params.maxPrice = formValues.maxPrice ?? 300000000;
+      params.minPrice = requestValues.minPrice ?? 0;
+      params.maxPrice = requestValues.maxPrice ?? 300000000;
     }
 
     // 월세만 선택된 경우에만 minRentPrice, maxRentPrice 포함
-    if (formValues.tradeType?.includes("MONTHLY_RENT")) {
-      params.minRentPrice = formValues.minRentPrice ?? 0;
-      params.maxRentPrice = formValues.maxRentPrice ?? 3500000;
+    if (requestValues.tradeType?.includes("MONTHLY_RENT")) {
+      params.minRentPrice = requestValues.minRentPrice ?? 0;
+      params.maxRentPrice = requestValues.maxRentPrice ?? 3500000;
     }
 
     console.log("API 요청 데이터:", params);
@@ -92,32 +92,32 @@ export default function Filter() {
     (field: string) =>
     (e: React.ChangeEvent<HTMLInputElement> | string): void => {
       if (typeof e === "string") {
-        setFormValues(prev => ({ ...prev, [field]: e }));
+        setRequestValues(prev => ({ ...prev, [field]: e }));
       } else {
-        setFormValues(prev => ({ ...prev, [field]: e.target.value }));
+        setRequestValues(prev => ({ ...prev, [field]: e.target.value }));
       }
     };
 
   const handleTravelTimeChange = (value: number) => {
-    setFormValues(prev => ({ ...prev, travelTime: value })); // 단일 값으로 업데이트
+    setRequestValues(prev => ({ ...prev, travelTime: value })); // 단일 값으로 업데이트
   };
 
   const handleHouseTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({
+    setRequestValues(prev => ({
       ...prev,
       houseType: selectedTags.map(mapHouseType),
     }));
   };
 
   const handleTradeTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({
+    setRequestValues(prev => ({
       ...prev,
       tradeType: selectedTags.map(mapTradeType),
     }));
   };
 
   const handleSortTypeChange = (selectedTag: string) => {
-    setFormValues(prev => ({
+    setRequestValues(prev => ({
       ...prev,
       sortType: selectedTag === "시간" ? "DISTANCE" : "PRICE",
     }));
@@ -126,7 +126,7 @@ export default function Filter() {
   const handleCostChange =
     (type: "minPrice" | "maxPrice" | "minRentPrice" | "maxRentPrice") =>
     (values: number) => {
-      setFormValues(prev => ({
+      setRequestValues(prev => ({
         ...prev,
         [type]: values,
       }));
@@ -138,23 +138,20 @@ export default function Filter() {
 
   useEffect(() => {
     const requiredFieldsSelected =
-      formValues.destination.trim() !== "" &&
-      (formValues.houseType?.length ?? 0) &&
-      (formValues.tradeType?.length ?? 0) &&
-      formValues.sortType.trim() !== "";
+      requestValues.destination.trim() !== "" &&
+      (requestValues.houseType?.length ?? 0) &&
+      (requestValues.tradeType?.length ?? 0) &&
+      requestValues.sortType.trim() !== "";
 
     setIsButtonDisabled(!requiredFieldsSelected);
-  }, [formValues]);
+  }, [requestValues]);
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="flex flex-col gap-[38px] py-[40px]"
-    >
+    <div className="flex flex-col gap-[38px] py-[40px]">
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
         placeholder="서울시 서대문구 현저동 941"
-        value={formValues.destination}
+        value={requestValues.destination}
         onChange={handleInputChange("destination")}
       />
 
@@ -163,7 +160,7 @@ export default function Filter() {
         <TimeRangeSlider
           min={0}
           max={80}
-          value={formValues.travelTime}
+          value={requestValues.travelTime}
           onChange={handleTravelTimeChange}
         />
       </div>
@@ -189,15 +186,15 @@ export default function Filter() {
         <div className="flex flex-col gap-[60px]">
           {/* 초기 상태나 매매/전세가 선택된 경우 보증금 슬라이더 표시 */}
           {/* 매매/전세가 선택된 경우 */}
-          {(formValues.tradeType?.includes("SALE") ||
-            formValues.tradeType?.includes("LONG_TERM_RENT")) && (
+          {(requestValues.tradeType?.includes("SALE") ||
+            requestValues.tradeType?.includes("LONG_TERM_RENT")) && (
             <CostRangeSlider
               min={0}
               max={300000000}
               type="전세/매매/보증금"
               value={[
-                formValues.minPrice ?? 0,
-                formValues.maxPrice ?? 300000000,
+                requestValues.minPrice ?? 0,
+                requestValues.maxPrice ?? 300000000,
               ]}
               onChange={([min, max]) => {
                 handleCostChange("minPrice")(min);
@@ -207,14 +204,14 @@ export default function Filter() {
           )}
 
           {/* 월세가 선택된 경우 */}
-          {formValues.tradeType?.includes("MONTHLY_RENT") && (
+          {requestValues.tradeType?.includes("MONTHLY_RENT") && (
             <CostRangeSlider
               min={0}
               max={3500000}
               type="월세"
               value={[
-                formValues.minRentPrice ?? 0,
-                formValues.maxRentPrice ?? 3500000,
+                requestValues.minRentPrice ?? 0,
+                requestValues.maxRentPrice ?? 3500000,
               ]}
               onChange={([min, max]) => {
                 handleCostChange("minRentPrice")(min);
@@ -237,11 +234,11 @@ export default function Filter() {
       <Button
         theme={isButtonDisabled ? "disabled" : "primary"}
         isDisabled={isButtonDisabled}
-        onClick={() => {}}
+        onClick={handleSubmit}
         navigateTo="/top-5"
       >
         지역 추천
       </Button>
-    </form>
+    </div>
   );
 }
