@@ -9,23 +9,20 @@ import TagList from "./TagList";
 import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
-import {
-  HouseType,
-  RequestData,
-  RequestParams,
-  TradeType,
-} from "@/types/property";
+import { HouseType, RequestParams, TradeType } from "@/types/property";
 
 export default function Filter() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [formValues, setFormValues] = useState<RequestData>({
+  const [formValues, setFormValues] = useState<RequestParams>({
     destination: "",
     travelTime: 0,
-    houseType: [], // 매물 유형
-    tradeType: [], // 거래 유형
-    deposit: [0, 300000000],
-    monthly: [0, 3500000],
-    sortType: "",
+    sortType: "PRICE",
+    houseType: [],
+    tradeType: [],
+    minPrice: 0,
+    maxPrice: 300000000,
+    minRentPrice: 0,
+    maxRentPrice: 3500000,
   });
 
   const mapHouseType = (type: string): HouseType => {
@@ -53,24 +50,24 @@ export default function Filter() {
     const params: RequestParams = {
       destination: formValues.destination,
       travelTime: formValues.travelTime,
-      sortType: formValues.sortType === "시간" ? "DISTANCE" : "PRICE",
-      houseType: formValues.houseType, // 배열 그대로 전달
-      tradeType: formValues.tradeType, // 배열 그대로 전달
+      sortType: formValues.sortType,
+      houseType: formValues.houseType,
+      tradeType: formValues.tradeType,
     };
 
-    // deposit (전세/매매) 추가
+    // 매매/전세만 선택된 경우에만 minPrice, maxPrice 포함
     if (
-      formValues.tradeType.includes("SALE") ||
-      formValues.tradeType.includes("LONG_TERM_RENT")
+      formValues.tradeType?.includes("SALE") ||
+      formValues.tradeType?.includes("LONG_TERM_RENT")
     ) {
-      params.minPrice = formValues.deposit?.[0] ?? 0;
-      params.maxPrice = formValues.deposit?.[1] ?? 300000000;
+      params.minPrice = formValues.minPrice ?? 0;
+      params.maxPrice = formValues.maxPrice ?? 300000000;
     }
 
-    // monthly (월세) 추가
-    if (formValues.tradeType.includes("MONTHLY_RENT")) {
-      params.minRentPrice = formValues.monthly?.[0] ?? 0;
-      params.maxRentPrice = formValues.monthly?.[1] ?? 3500000;
+    // 월세만 선택된 경우에만 minRentPrice, maxRentPrice 포함
+    if (formValues.tradeType?.includes("MONTHLY_RENT")) {
+      params.minRentPrice = formValues.minRentPrice ?? 0;
+      params.maxRentPrice = formValues.maxRentPrice ?? 3500000;
     }
 
     console.log("API 요청 데이터:", params);
@@ -120,11 +117,15 @@ export default function Filter() {
   };
 
   const handleSortTypeChange = (selectedTag: string) => {
-    setFormValues(prev => ({ ...prev, sortType: selectedTag }));
+    setFormValues(prev => ({
+      ...prev,
+      sortType: selectedTag === "시간" ? "DISTANCE" : "PRICE",
+    }));
   };
 
   const handleCostChange =
-    (type: "deposit" | "monthly") => (values: [number, number]) => {
+    (type: "minPrice" | "maxPrice" | "minRentPrice" | "maxRentPrice") =>
+    (values: number) => {
       setFormValues(prev => ({
         ...prev,
         [type]: values,
@@ -138,8 +139,8 @@ export default function Filter() {
   useEffect(() => {
     const requiredFieldsSelected =
       formValues.destination.trim() !== "" &&
-      formValues.houseType.length > 0 &&
-      formValues.tradeType.length > 0 &&
+      (formValues.houseType?.length ?? 0) &&
+      (formValues.tradeType?.length ?? 0) &&
       formValues.sortType.trim() !== "";
 
     setIsButtonDisabled(!requiredFieldsSelected);
@@ -187,30 +188,37 @@ export default function Filter() {
         <Label>5. 예상하시는 가격을 입력해주세요.</Label>
         <div className="flex flex-col gap-[60px]">
           {/* 초기 상태나 매매/전세가 선택된 경우 보증금 슬라이더 표시 */}
-          {(formValues.tradeType.length === 0 ||
-            formValues.tradeType.includes("SALE") ||
-            formValues.tradeType.includes("LONG_TERM_RENT")) && (
+          {/* 매매/전세가 선택된 경우 */}
+          {(formValues.tradeType?.includes("SALE") ||
+            formValues.tradeType?.includes("LONG_TERM_RENT")) && (
             <CostRangeSlider
               min={0}
               max={300000000}
               type="전세/매매/보증금"
-              value={formValues.deposit ?? [0, 0]}
-              onChange={values => {
-                handleCostChange("deposit")(values);
+              value={[
+                formValues.minPrice ?? 0,
+                formValues.maxPrice ?? 300000000,
+              ]}
+              onChange={([min, max]) => {
+                handleCostChange("minPrice")(min);
+                handleCostChange("maxPrice")(max);
               }}
             />
           )}
 
-          {/* 초기 상태나 월세가 선택된 경우 월세 슬라이더 표시 */}
-          {(formValues.tradeType.length === 0 ||
-            formValues.tradeType.includes("MONTHLY_RENT")) && (
+          {/* 월세가 선택된 경우 */}
+          {formValues.tradeType?.includes("MONTHLY_RENT") && (
             <CostRangeSlider
               min={0}
               max={3500000}
               type="월세"
-              value={formValues.monthly ?? [0, 0]}
-              onChange={values => {
-                handleCostChange("monthly")(values);
+              value={[
+                formValues.minRentPrice ?? 0,
+                formValues.maxRentPrice ?? 3500000,
+              ]}
+              onChange={([min, max]) => {
+                handleCostChange("minRentPrice")(min);
+                handleCostChange("maxRentPrice")(max);
               }}
             />
           )}

@@ -5,7 +5,7 @@ import "rc-slider/assets/index.css";
 interface RangeSliderProps {
   min: number;
   max: number;
-  value: [number, number] | null;
+  value: [number, number];
   onChange: (values: [number, number]) => void;
   type: "전세/매매/보증금" | "월세";
 }
@@ -30,16 +30,9 @@ export default function CostRangeSlider({
   }, [value, max]);
 
   // 슬라이더 값 변경 핸들러
-  const handleRangeChange = (values: number | number[]) => {
-    if (Array.isArray(values) && values.length === 2) {
-      const [minPrice, maxPrice] = values;
-      setRangeValues([minPrice, maxPrice]);
-      onChange([minPrice, maxPrice]); // 부모 컴포넌트에 값 전달
-      setIsMaxUnlimited(maxPrice === max); // 최대값 상태 업데이트
-
-      // 부모 컴포넌트에 `minPrice`와 `maxPrice` 전달
-      onChange([minPrice, maxPrice]);
-    }
+  const handleRangeChange = (values: [number, number]) => {
+    setRangeValues(values);
+    onChange(values); // 부모 컴포넌트에 값 전달
   };
 
   // 금액 형식을 설정하는 함수 (100만 원 단위 이상에서만 값 표시)
@@ -73,7 +66,9 @@ export default function CostRangeSlider({
         min={min}
         max={max}
         value={rangeValues}
-        onChange={handleRangeChange}
+        onChange={(values: number | number[]) => {
+          if (Array.isArray(values)) handleRangeChange([values[0], values[1]]);
+        }}
         trackStyle={[{ backgroundColor: "#9D2B3A", height: 8 }]}
         handleStyle={[
           {

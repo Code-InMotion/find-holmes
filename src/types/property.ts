@@ -21,17 +21,6 @@ export interface HouseInfo {
   longitude: number; // 경도
 }
 
-// 요청 데이터 타입
-export interface RequestData {
-  destination: string;
-  travelTime: number;
-  houseType: HouseType[];
-  tradeType: TradeType[];
-  deposit?: [number, number]; // 선택적 필드, 전세
-  monthly?: [number, number]; // 선택적 필드, 월세
-  sortType: string;
-}
-
 export interface RequestParams {
   destination: string;
   travelTime: number;
