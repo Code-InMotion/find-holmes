@@ -1,4 +1,4 @@
-import TopFiveContainer from "./\bcomponents/TopFiveContainer";
+import TopFiveContainer from "./components/TopFiveContainer";
 
 export default function page() {
   return (

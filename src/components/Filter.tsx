@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import qs from "qs";
@@ -10,6 +11,7 @@ import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
 import { HouseType, RequestParams, TradeType } from "@/types/property";
+import { usePropertyStore } from "@/store/usePropertyStore";
 
 export default function Filter() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -24,6 +26,7 @@ export default function Filter() {
     minRentPrice: 0,
     maxRentPrice: 3500000,
   });
+  const setPropertyData = usePropertyStore(state => state.setData);
 
   const mapHouseType = (type: string): HouseType => {
     const mapping: Record<string, HouseType> = {
@@ -44,8 +47,6 @@ export default function Filter() {
   };
 
   const handleSubmit = async () => {
-    // event.preventDefault();
-
     // 요청 데이터 가공
     const params: RequestParams = {
       destination: requestValues.destination,
@@ -70,8 +71,6 @@ export default function Filter() {
       params.maxRentPrice = requestValues.maxRentPrice ?? 3500000;
     }
 
-    console.log("API 요청 데이터:", params);
-
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_KEY}/property`,
@@ -82,7 +81,8 @@ export default function Filter() {
           },
         }
       );
-      console.log("응답 데이터", response.data);
+
+      setPropertyData(response.data);
     } catch (error) {
       console.log("API 요청 중 오류 발생", error);
     }
