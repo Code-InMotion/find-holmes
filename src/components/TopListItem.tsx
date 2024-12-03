@@ -18,7 +18,7 @@ export default function TopListItem({
           {rank}
         </span>
         <div className="flex flex-col text-brown-dark">
-          <span className="text-lg mb-[3px]">{region}</span>
+          <span className="text-[15px] mb-[3px]">{region}</span>
           <span className="font-light text-[10px]">
             {count}개의 매물이 있습니다.
           </span>

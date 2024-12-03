@@ -1,5 +1,5 @@
-type TradeType = "SALE" | "MONTHLY_RENT" | "LONG_TERM_RENT";
-type HouseType = "APARTMENT" | "OFFICETEL" | "VILLA";
+export type TradeType = "SALE" | "MONTHLY_RENT" | "LONG_TERM_RENT";
+export type HouseType = "APARTMENT" | "OFFICETEL" | "VILLA";
 
 // 거래 정보 타입 (Trade)
 interface Trade {
@@ -19,4 +19,16 @@ export interface HouseInfo {
   trade: Trade; // 거래 정보
   latitude: number; // 위도
   longitude: number; // 경도
+}
+
+export interface RequestParams {
+  destination: string;
+  travelTime: number;
+  sortType: "DISTANCE" | "PRICE";
+  houseType?: HouseType[]; // 선택적 필드
+  tradeType?: TradeType[]; // 선택적 필드
+  minPrice?: number; // 전세/매매 최소 금액
+  maxPrice?: number; // 전세/매매 최대 금액
+  minRentPrice?: number; // 월세 최소 금액
+  maxRentPrice?: number; // 월세 최대 금액
 }

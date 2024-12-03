@@ -1,4 +1,7 @@
+"use client";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import qs from "qs";
 
 import TextInput from "./TextInput";
 import Label from "./Label";
@@ -7,80 +10,149 @@ import TagList from "./TagList";
 import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
-export default function Filter() {
-  const [formValues, setFormValues] = useState({
-    address: "",
-    commuteTime: [0, 80] as [number, number],
-    propertyType: [] as string[],
-    transactionType: [] as string[],
-    deposit: [0, 300000000] as [number, number],
-    monthly: [0, 3500000] as [number, number],
-    priority: "",
-  });
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+import { HouseType, RequestParams, TradeType } from "@/types/property";
+import { usePropertyStore } from "@/store/usePropertyStore";
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+export default function Filter() {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [requestValues, setRequestValues] = useState<RequestParams>({
+    destination: "",
+    travelTime: 0,
+    sortType: "PRICE",
+    houseType: [],
+    tradeType: [],
+    minPrice: 0,
+    maxPrice: 300000000,
+    minRentPrice: 0,
+    maxRentPrice: 3500000,
+  });
+  const setPropertyData = usePropertyStore(state => state.setData);
+
+  const mapHouseType = (type: string): HouseType => {
+    const mapping: Record<string, HouseType> = {
+      아파트: "APARTMENT",
+      오피스텔: "OFFICETEL",
+      빌라: "VILLA",
+    };
+    return mapping[type];
+  };
+
+  const mapTradeType = (type: string): TradeType => {
+    const mapping: Record<string, TradeType> = {
+      매매: "SALE",
+      전세: "LONG_TERM_RENT",
+      월세: "MONTHLY_RENT",
+    };
+    return mapping[type];
+  };
+
+  const handleSubmit = async () => {
+    // 요청 데이터 가공
+    const params: RequestParams = {
+      destination: requestValues.destination,
+      travelTime: requestValues.travelTime,
+      sortType: requestValues.sortType,
+      houseType: requestValues.houseType,
+      tradeType: requestValues.tradeType,
+    };
+
+    // 매매/전세만 선택된 경우에만 minPrice, maxPrice 포함
+    if (
+      requestValues.tradeType?.includes("SALE") ||
+      requestValues.tradeType?.includes("LONG_TERM_RENT")
+    ) {
+      params.minPrice = requestValues.minPrice ?? 0;
+      params.maxPrice = requestValues.maxPrice ?? 300000000;
+    }
+
+    // 월세만 선택된 경우에만 minRentPrice, maxRentPrice 포함
+    if (requestValues.tradeType?.includes("MONTHLY_RENT")) {
+      params.minRentPrice = requestValues.minRentPrice ?? 0;
+      params.maxRentPrice = requestValues.maxRentPrice ?? 3500000;
+    }
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_KEY}/property`,
+        {
+          params,
+          paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: "repeat" });
+          },
+        }
+      );
+
+      setPropertyData(response.data);
+    } catch (error) {
+      console.log("API 요청 중 오류 발생", error);
+    }
   };
 
   const handleInputChange =
     (field: string) =>
     (e: React.ChangeEvent<HTMLInputElement> | string): void => {
       if (typeof e === "string") {
-        setFormValues(prev => ({ ...prev, [field]: e }));
+        setRequestValues(prev => ({ ...prev, [field]: e }));
       } else {
-        setFormValues(prev => ({ ...prev, [field]: e.target.value }));
+        setRequestValues(prev => ({ ...prev, [field]: e.target.value }));
       }
     };
 
-  const handleCommuteTimeChange = (values: [number, number]) => {
-    setFormValues(prev => ({ ...prev, commuteTime: values }));
+  const handleTravelTimeChange = (value: number) => {
+    setRequestValues(prev => ({ ...prev, travelTime: value })); // 단일 값으로 업데이트
   };
 
-  const handlePropertyTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({ ...prev, propertyType: selectedTags }));
+  const handleHouseTypeChange = (selectedTags: string[]) => {
+    setRequestValues(prev => ({
+      ...prev,
+      houseType: selectedTags.map(mapHouseType),
+    }));
   };
 
-  const handleTransactionTypeChange = (selectedTags: string[]) => {
-    setFormValues(prev => ({ ...prev, transactionType: selectedTags }));
+  const handleTradeTypeChange = (selectedTags: string[]) => {
+    setRequestValues(prev => ({
+      ...prev,
+      tradeType: selectedTags.map(mapTradeType),
+    }));
   };
 
-  const handlePriorityChange = (selectedTag: string) => {
-    setFormValues(prev => ({ ...prev, priority: selectedTag }));
+  const handleSortTypeChange = (selectedTag: string) => {
+    setRequestValues(prev => ({
+      ...prev,
+      sortType: selectedTag === "시간" ? "DISTANCE" : "PRICE",
+    }));
   };
 
   const handleCostChange =
-    (type: "deposit" | "monthly") => (values: [number, number]) => {
-      setFormValues(prev => ({
+    (type: "minPrice" | "maxPrice" | "minRentPrice" | "maxRentPrice") =>
+    (values: number) => {
+      setRequestValues(prev => ({
         ...prev,
         [type]: values,
       }));
     };
 
-  const propertyTypeTags = ["아파트", "오피스텔", "빌라"];
-  const transactionTypeTags = ["매매", "전세", "월세"];
-  const priorityTags = ["시간", "예산"];
+  const houseTypeTags = ["아파트", "오피스텔", "빌라"];
+  const tradeTypeTags = ["매매", "전세", "월세"];
+  const sortTypeTags = ["시간", "예산"];
 
   useEffect(() => {
     const requiredFieldsSelected =
-      formValues.address.trim() !== "" &&
-      formValues.propertyType.length > 0 &&
-      formValues.transactionType.length > 0 &&
-      formValues.priority.trim() !== "";
+      requestValues.destination.trim() !== "" &&
+      (requestValues.houseType?.length ?? 0) &&
+      (requestValues.tradeType?.length ?? 0) &&
+      requestValues.sortType.trim() !== "";
 
     setIsButtonDisabled(!requiredFieldsSelected);
-  }, [formValues]);
+  }, [requestValues]);
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="flex flex-col gap-[38px] py-[40px]"
-    >
+    <div className="flex flex-col gap-[38px] py-[40px]">
       <TextInput
         label="1. 회사 또는 학교를 입력해주세요."
         placeholder="서울시 서대문구 현저동 941"
-        value={formValues.address}
-        onChange={handleInputChange("address")}
+        value={requestValues.destination}
+        onChange={handleInputChange("destination")}
       />
 
       <div>
@@ -88,52 +160,73 @@ export default function Filter() {
         <TimeRangeSlider
           min={0}
           max={80}
-          value={formValues.commuteTime}
-          onChange={handleCommuteTimeChange}
+          value={requestValues.travelTime}
+          onChange={handleTravelTimeChange}
         />
       </div>
 
       <div>
         <Label>3. 원하는 매물 유형을 선택해주세요.</Label>
         <TagList
-          tagList={propertyTypeTags}
-          onChange={tags => handlePropertyTypeChange(tags as string[])}
+          tagList={houseTypeTags}
+          onChange={tags => handleHouseTypeChange(tags as string[])}
         />
       </div>
 
       <div>
         <Label>4. 원하는 거래 유형을 선택해주세요.</Label>
         <TagList
-          tagList={transactionTypeTags}
-          onChange={tags => handleTransactionTypeChange(tags as string[])}
+          tagList={tradeTypeTags}
+          onChange={tags => handleTradeTypeChange(tags as string[])}
         />
       </div>
 
       <div className="mb-[38px]">
         <Label>5. 예상하시는 가격을 입력해주세요.</Label>
         <div className="flex flex-col gap-[60px]">
-          <CostRangeSlider
-            min={0}
-            max={300000000}
-            type="전세/매매/보증금"
-            value={formValues.deposit}
-            onChange={handleCostChange("deposit")}
-          />
-          <CostRangeSlider
-            min={0}
-            max={3500000}
-            type="월세"
-            value={formValues.monthly}
-            onChange={handleCostChange("monthly")}
-          />
+          {/* 초기 상태나 매매/전세가 선택된 경우 보증금 슬라이더 표시 */}
+          {/* 매매/전세가 선택된 경우 */}
+          {(requestValues.tradeType?.includes("SALE") ||
+            requestValues.tradeType?.includes("LONG_TERM_RENT")) && (
+            <CostRangeSlider
+              min={0}
+              max={300000000}
+              type="전세/매매/보증금"
+              value={[
+                requestValues.minPrice ?? 0,
+                requestValues.maxPrice ?? 300000000,
+              ]}
+              onChange={([min, max]) => {
+                handleCostChange("minPrice")(min);
+                handleCostChange("maxPrice")(max);
+              }}
+            />
+          )}
+
+          {/* 월세가 선택된 경우 */}
+          {requestValues.tradeType?.includes("MONTHLY_RENT") && (
+            <CostRangeSlider
+              min={0}
+              max={3500000}
+              type="월세"
+              value={[
+                requestValues.minRentPrice ?? 0,
+                requestValues.maxRentPrice ?? 3500000,
+              ]}
+              onChange={([min, max]) => {
+                handleCostChange("minRentPrice")(min);
+                handleCostChange("maxRentPrice")(max);
+              }}
+            />
+          )}
         </div>
       </div>
 
       <div>
         <Label>6. 무엇이 더 중요한가요?</Label>
         <TagList
-          tagList={priorityTags}
-          onChange={tag => handlePriorityChange(tag as string)}
+          tagList={sortTypeTags}
+          onChange={tag => handleSortTypeChange(tag as string)}
           isSingleSelect={true}
         />
       </div>
@@ -141,11 +234,11 @@ export default function Filter() {
       <Button
         theme={isButtonDisabled ? "disabled" : "primary"}
         isDisabled={isButtonDisabled}
-        onClick={() => {}}
+        onClick={handleSubmit}
         navigateTo="/top-5"
       >
         지역 추천
       </Button>
-    </form>
+    </div>
   );
 }
