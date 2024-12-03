@@ -1,4 +1,5 @@
 "use client";
+import Button from "./LinkButton";
 import TopListItem from "./TopListItem";
 import { usePropertyStore } from "@/store/usePropertyStore";
 
@@ -15,15 +16,31 @@ export default function TopList() {
 
   return (
     <div className="">
-      {data.map((item, index) => (
-        <TopListItem
-          key={index}
-          rank={index + 1}
-          region={item.address}
-          count={item.propertyCount}
-          onClick={handleClick}
-        />
-      ))}
+      {data.length === 0 ? (
+        <div className="flex flex-col justify-center items-center">
+          <span className="flex text-brown my-[50px] text-lg">
+            아쉽지만 매물이 없습니다ㅠ
+          </span>
+          <Button
+            width="w-[100px]"
+            font="font-light"
+            theme={"primary"}
+            navigateTo="/"
+          >
+            홈으로 이동
+          </Button>
+        </div>
+      ) : (
+        data.map((item, index) => (
+          <TopListItem
+            key={index}
+            rank={index + 1}
+            region={item.address}
+            count={item.propertyCount}
+            onClick={handleClick}
+          />
+        ))
+      )}
     </div>
   );
 }
