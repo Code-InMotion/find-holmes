@@ -2,20 +2,24 @@ import Image from "next/image";
 import BoxLayout from "./BoxLayout";
 
 interface IPropertyListItem {
-  rentType: string;
-  price: string;
-  timeRequired: number;
+  tradeType: string;
+  price: number;
+  rentPrice: number;
+  travelTime: number;
   address: string;
-  typeInfo: string;
+  houseType: string;
+  floor: number;
   onClick: () => void;
 }
 
 export default function PropertyListItem({
-  rentType,
+  tradeType,
   price,
-  timeRequired,
+  rentPrice,
+  travelTime,
   address,
-  typeInfo,
+  houseType,
+  floor,
   onClick,
 }: IPropertyListItem) {
   return (
@@ -34,13 +38,15 @@ export default function PropertyListItem({
         <div className="w-full flex flex-col">
           <div className="flex items-center justify-between">
             <span className="text-sm">
-              {rentType} {price}
+              {tradeType} {price}/{rentPrice}
             </span>
-            <span className="text-sm">{address}</span>
+            <span className="text-sm">{address}번지</span>
           </div>
           <div className="flex justify-between font-light text-xs">
-            <span>소요시간 {timeRequired}분</span>
-            <span>{typeInfo}</span>
+            <span>소요시간 {travelTime}분</span>
+            <span>
+              {houseType}, {floor}층
+            </span>
           </div>
         </div>
       </div>

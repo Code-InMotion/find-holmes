@@ -32,3 +32,19 @@ export interface RequestParams {
   minRentPrice?: number; // 월세 최소 금액
   maxRentPrice?: number; // 월세 최대 금액
 }
+
+export interface PropertyItem {
+  id: string;
+  address: string;
+  addressNumber: string;
+  houseType: HouseType;
+  tradeType: TradeType;
+  floor: number;
+  price: number;
+  rentPrice: number;
+  dealDate: string;
+  buildYear: number;
+  exclusiveArea: number;
+  distance: number;
+  travelTime: number;
+}
