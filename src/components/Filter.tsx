@@ -27,6 +27,7 @@ export default function Filter() {
     maxRentPrice: 3500000,
   });
   const setPropertyData = usePropertyStore(state => state.setData);
+  const setParams = usePropertyStore(state => state.setParams);
 
   const mapHouseType = (type: string): HouseType => {
     const mapping: Record<string, HouseType> = {
@@ -55,6 +56,9 @@ export default function Filter() {
       houseType: requestValues.houseType,
       tradeType: requestValues.tradeType,
     };
+
+    // params 저장
+    setParams(params);
 
     // 매매/전세만 선택된 경우에만 minPrice, maxPrice 포함
     if (

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import PropertyList from "@/components/PropertyList";
 
-const meta = {
+const meta: Meta<typeof PropertyList> = {
   title: "List/PropertyList",
   component: PropertyList,
   parameters: {
@@ -16,10 +16,20 @@ const meta = {
       </div>
     ),
   ],
-  argTypes: {},
-} satisfies Meta<typeof PropertyList>;
+  argTypes: {
+    address: {
+      control: "text",
+      description: "주소",
+    },
+  },
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+type Story = StoryObj<typeof PropertyList>;
+
+export const Default: Story = {
+  args: {
+    address: "서울특별시 강남구",
+  },
+};
