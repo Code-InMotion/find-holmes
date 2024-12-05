@@ -3,10 +3,12 @@ import { useRouter } from "next/navigation";
 type ButtonTheme = "primary" | "disabled";
 
 interface IPrimaryButtonProps {
+  width?: string;
+  font?: string;
   theme: ButtonTheme;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   children: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   navigateTo?: string;
 }
 
@@ -19,6 +21,8 @@ const color: Record<ButtonTheme, string> = {
 };
 
 export default function Button({
+  width = "w-full",
+  font = "font-medium",
   theme,
   isDisabled,
   children,
@@ -43,7 +47,7 @@ export default function Button({
 
   return (
     <button
-      className={`w-full h-[50px] rounded-[10px] text-sm font-medium  ${disabled} ${color[theme]}`}
+      className={`${width} h-[50px] rounded-[10px] text-sm ${font}  ${disabled} ${color[theme]}`}
       disabled={isDisabled}
       onClick={handleClick}
     >
