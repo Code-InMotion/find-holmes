@@ -18,17 +18,22 @@ const meta = {
     ),
   ],
   argTypes: {
-    rentType: {
+    tradeType: {
       control: "text",
       description: "매물 유형",
       defaultValue: "월세",
     },
     price: {
-      control: "text",
-      description: "매물 가격",
-      defaultValue: "1000/80",
+      control: "number",
+      description: "매물 보증금 가격",
+      defaultValue: 1000,
     },
-    timeRequired: {
+    rentPrice: {
+      control: "number",
+      description: "매물 월세 가격",
+      defaultValue: 80,
+    },
+    travelTime: {
       control: "number",
       description: "소요 시간",
       defaultValue: 35,
@@ -38,10 +43,15 @@ const meta = {
       description: "주소",
       defaultValue: "서울시 중랑구 신내동 395-15",
     },
-    typeInfo: {
+    houseType: {
       control: "text",
       description: "매물 유형 정보",
       defaultValue: "오피스텔, 3/10층",
+    },
+    floor: {
+      control: "number",
+      description: "층수",
+      defaultValue: -1,
     },
   },
   args: { onClick: fn() },
@@ -52,10 +62,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    rentType: "월세",
-    price: "1000/100",
-    timeRequired: 35,
+    tradeType: "월세",
+    price: 1000,
+    rentPrice: 80,
+    travelTime: 35,
     address: "서울시 중랑구 신내동 395-15",
-    typeInfo: "오피스텔, 3/10층",
+    houseType: "오피스텔, 3/10층",
+    floor: -1,
   },
 };
