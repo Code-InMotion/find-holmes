@@ -1,17 +1,18 @@
 "use client";
+import { useRouter } from "next/navigation";
+
 import Button from "./LinkButton";
 import TopListItem from "./TopListItem";
+
 import { usePropertyStore } from "@/store/usePropertyStore";
 
 export default function TopList() {
   const data = usePropertyStore(state => state.data);
-  // 임시로 쿼리 파라미터로 전달
-  const handleClick = () => {
-    // router.push(
-    //   `/detail?region=${encodeURIComponent(region)}&count=${encodeURIComponent(
-    //     count
-    //   )}`
-    // );
+  const router = useRouter();
+
+  const handleClick = (address: string) => {
+    // 주소 데이터를 JSON으로 변환해 query 파라미터에 포함
+    router.push(`/detail?address=${encodeURIComponent(address)}`);
   };
 
   return (
@@ -37,7 +38,7 @@ export default function TopList() {
             rank={index + 1}
             region={item.address}
             count={item.propertyCount}
-            onClick={handleClick}
+            onClick={() => handleClick(item.address)}
           />
         ))
       )}
