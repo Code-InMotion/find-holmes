@@ -10,10 +10,8 @@ export default function DetailContainer() {
 
   return (
     <div className="min-h-screen flex flex-col px-[25px]">
-      <Header className="justify-center mt-[100px] mb-[30px]">
-        {address || ""}
-      </Header>
-      <PropertyList />
+      <Header>{address || ""}</Header>
+      <PropertyList address={address} />
     </div>
   );
 }

@@ -18,10 +18,10 @@ export default function ResultContainer() {
 
   return (
     <>
-      <div className="w-[380px] h-screen p-[25px] bg-yellow flex flex-col relative">
+      <div className="w-[400px] h-screen p-[25px] bg-yellow flex flex-col relative">
         <BoxLayout className="flex flex-col mt-[80px] justify-start">
           <Header>아파트/빌라/오피스텔명</Header>
-          <span className="text-sm text-brown-dark font-light">
+          <span className="mb-[20px] text-sm text-brown-dark font-light">
             서울시 중랑구 신내동 390-15
           </span>
         </BoxLayout>

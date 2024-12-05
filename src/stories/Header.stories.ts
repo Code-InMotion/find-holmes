@@ -15,11 +15,6 @@ const meta = {
       description: "Header에 표시될 텍스트",
       defaultValue: "조건에 맞는 지역 TOP 5",
     },
-    className: {
-      control: "text",
-      description: "Header의 CSS 클래스",
-      defaultValue: "text-center",
-    },
   },
 } satisfies Meta<typeof Header>;
 
@@ -29,6 +24,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: "조건에 맞는 지역 TOP 5",
-    className: "text-center",
   },
 };
