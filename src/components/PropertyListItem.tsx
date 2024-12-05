@@ -4,7 +4,7 @@ import BoxLayout from "./BoxLayout";
 interface IPropertyListItem {
   tradeType: string;
   price: number;
-  rentPrice: number;
+  rentPrice?: number;
   travelTime: number;
   address: string;
   houseType: string;
@@ -23,9 +23,9 @@ export default function PropertyListItem({
   onClick,
 }: IPropertyListItem) {
   return (
-    <BoxLayout>
+    <BoxLayout className="flex items-center">
       <div
-        className="flex py-[19px] text-brown-dark cursor-pointer"
+        className="flex items-center w-full text-brown-dark cursor-pointer"
         onClick={onClick}
       >
         <Image
@@ -35,14 +35,15 @@ export default function PropertyListItem({
           height={40}
           style={{ marginRight: "10px" }}
         />
-        <div className="w-full flex flex-col">
-          <div className="flex items-center justify-between">
+        <div className="flex flex-col w-full">
+          <div className="flex justify-between">
             <span className="text-sm">
-              {tradeType} {price}/{rentPrice}
+              {tradeType} {price}
+              {rentPrice ? `/${rentPrice}` : ""}
             </span>
             <span className="text-sm">{address}번지</span>
           </div>
-          <div className="flex justify-between font-light text-xs">
+          <div className="flex justify-between font-light text-xs mt-2">
             <span>소요시간 {travelTime}분</span>
             <span>
               {houseType}, {floor}층

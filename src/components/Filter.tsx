@@ -10,9 +10,8 @@ import TagList from "./TagList";
 import CostRangeSlider from "./CostRangeSlider";
 import Button from "./LinkButton";
 
-import { RequestParams } from "@/types/property";
+import { HouseType, RequestParams, TradeType } from "@/types/property";
 import { usePropertyStore } from "@/store/usePropertyStore";
-import { mapHouseType, mapTradeType } from "@/utils/mappingType";
 
 export default function Filter() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -29,6 +28,24 @@ export default function Filter() {
   });
   const setPropertyData = usePropertyStore(state => state.setData);
   const setParams = usePropertyStore(state => state.setParams);
+
+  const mapHouseType = (type: string): HouseType => {
+    const mapping: Record<string, HouseType> = {
+      아파트: "APARTMENT",
+      오피스텔: "OFFICETEL",
+      빌라: "VILLA",
+    };
+    return mapping[type];
+  };
+
+  const mapTradeType = (type: string): TradeType => {
+    const mapping: Record<string, TradeType> = {
+      매매: "SALE",
+      전세: "LONG_TERM_RENT",
+      월세: "MONTHLY_RENT",
+    };
+    return mapping[type];
+  };
 
   const handleSubmit = async () => {
     // 요청 데이터 가공
