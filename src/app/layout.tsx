@@ -12,7 +12,7 @@ export default function RootLayout({
   const isResultPage = pathname === "/result";
 
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
         className={`flex ${
           isResultPage
