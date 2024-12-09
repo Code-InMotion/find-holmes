@@ -10,7 +10,7 @@ export default function Header({ children }: IHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isResultPage = pathname === "/result";
+  const isResultPage = pathname === "/detail";
 
   const handleBackClick = () => {
     router.back();
