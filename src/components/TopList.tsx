@@ -12,7 +12,7 @@ export default function TopList() {
 
   const handleClick = (address: string) => {
     // 주소 데이터를 JSON으로 변환해 query 파라미터에 포함
-    router.push(`/propertylist?address=${encodeURIComponent(address)}`);
+    router.push(`/properties?address=${encodeURIComponent(address)}`);
   };
 
   return (

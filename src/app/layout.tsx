@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientWrapper from "@/components/ClientWrapper";
+import DynamicTitle from "@/components/DynamicTitle";
 
 export const metadata: Metadata = {
   title: "구해줘, 홈즈",
@@ -40,6 +41,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <DynamicTitle />
+      </head>
       <body>
         <ClientWrapper>{children}</ClientWrapper>{" "}
       </body>
