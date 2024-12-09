@@ -1,10 +1,9 @@
-import React, { Suspense } from "react";
-import DetailContainer from "./components/DetailContainer";
+import ResultContainer from "./components/ResultContainer";
 
-export default function page() {
+export default function Page() {
   return (
-    <Suspense fallback={<div>로딩 중...</div>}>
-      <DetailContainer />
-    </Suspense>
+    <div className="flex w-full h-screen">
+      <ResultContainer />
+    </div>
   );
 }

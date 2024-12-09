@@ -9,7 +9,7 @@ export default function ClientWrapper({
 }>) {
   const pathname = usePathname();
 
-  const isResultPage = pathname === "/result";
+  const isResultPage = pathname === "/detail";
 
   return (
     <div

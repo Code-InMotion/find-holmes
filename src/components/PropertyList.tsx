@@ -71,7 +71,7 @@ export default function PropertyList({ address }: IPropertyListProps) {
   }, [address, params]);
 
   const handleClick = () => {
-    router.push("/result");
+    router.push("/detail");
   };
 
   return (
