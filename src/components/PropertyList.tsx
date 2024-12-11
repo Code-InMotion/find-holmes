@@ -15,6 +15,7 @@ interface IPropertyListProps {
 
 export default function PropertyList({ address }: IPropertyListProps) {
   const params = usePropertyStore(state => state.params);
+  console.log(params.destination);
   const router = useRouter();
   const [items, setItems] = useState<PropertyItem[]>([]);
 
@@ -70,8 +71,8 @@ export default function PropertyList({ address }: IPropertyListProps) {
     fetchData();
   }, [address, params]);
 
-  const handleClick = () => {
-    router.push("/detail");
+  const handleClick = (id: string) => {
+    router.push(`/detail?id=${encodeURIComponent(id)}`);
   };
 
   return (
@@ -88,7 +89,7 @@ export default function PropertyList({ address }: IPropertyListProps) {
             address={item.addressNumber}
             houseType={mapHouseType(item.houseType)}
             floor={item.floor}
-            onClick={handleClick}
+            onClick={() => handleClick(item.id)}
           />
         ))
       ) : (
