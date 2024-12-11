@@ -11,6 +11,7 @@ import PropertyDetail from "@/components/PropertyDetail";
 import { usePropertyStore } from "@/store/usePropertyStore";
 import axios from "axios";
 import { PropertyItem } from "@/types/property";
+import { mapHouseType, mapTradeType } from "@/utils/mappingType";
 
 export default function ResultContainer() {
   const [map, setMap] = useState<KakaoMap | null>(null);
@@ -64,8 +65,14 @@ export default function ResultContainer() {
             {propertyData?.address} {propertyData?.addressNumber}
           </span>
         </BoxLayout>
-        <PropertyDetail label="매물 유형" value={propertyData?.houseType} />
-        <PropertyDetail label="거래 유형" value={propertyData?.tradeType} />
+        <PropertyDetail
+          label="매물 유형"
+          value={mapHouseType(propertyData?.houseType)}
+        />
+        <PropertyDetail
+          label="거래 유형"
+          value={mapTradeType(propertyData?.tradeType)}
+        />
         <PropertyDetail
           label="가격"
           value={
