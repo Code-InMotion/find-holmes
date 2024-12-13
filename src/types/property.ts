@@ -48,4 +48,8 @@ export interface PropertyItem {
   exclusiveArea: number;
   distance: number;
   travelTime: number;
+  location?: {
+    x: number;
+    y: number;
+  };
 }
