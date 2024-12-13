@@ -19,7 +19,6 @@ export default function ResultContainer() {
   const params = usePropertyStore(state => state.params);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  console.log(params.destination, id);
 
   useEffect(() => {
     if (!id || !params.destination) {
@@ -38,7 +37,6 @@ export default function ResultContainer() {
             },
           }
         );
-        console.log("property detail", response.data);
         setPropertyData(response.data);
       } catch (error) {
         console.log("매물 상세 정보 API 요청 중 에러 발생:", error);
@@ -60,7 +58,7 @@ export default function ResultContainer() {
     <>
       <div className="w-[400px] h-screen p-[25px] bg-yellow flex flex-col relative">
         <BoxLayout className="flex flex-col mt-[80px] justify-start">
-          <Header>아파트/빌라/오피스텔명</Header>
+          <Header>{propertyData?.buildingName}</Header>
           <span className="mb-[20px] text-sm text-brown-dark font-light">
             {propertyData?.address} {propertyData?.addressNumber}
           </span>
