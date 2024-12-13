@@ -9,6 +9,7 @@ import PropertyListItem from "./PropertyListItem";
 import { usePropertyStore } from "@/store/usePropertyStore";
 import { PropertyItem } from "@/types/property";
 import { mapHouseType, mapTradeType } from "@/utils/mappingType";
+import { formatToWonUnit } from "@/utils/formatNumber";
 
 interface IPropertyListProps {
   address: string | null;
@@ -65,7 +66,7 @@ export default function PropertyList({ address }: IPropertyListProps) {
           <PropertyListItem
             key={index}
             tradeType={mapTradeType(item.tradeType)}
-            price={item.price}
+            price={formatToWonUnit(item.price)}
             rentPrice={item.rentPrice}
             travelTime={item.travelTime}
             address={item.addressNumber}

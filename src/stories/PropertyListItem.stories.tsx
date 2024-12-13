@@ -24,9 +24,9 @@ const meta = {
       defaultValue: "월세",
     },
     price: {
-      control: "number",
+      control: "text",
       description: "매물 보증금 가격",
-      defaultValue: 1000,
+      defaultValue: "1,000",
     },
     rentPrice: {
       control: "number",
@@ -63,7 +63,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     tradeType: "월세",
-    price: 1000,
+    price: "1,000",
     rentPrice: 80,
     travelTime: 35,
     address: "서울시 중랑구 신내동 395-15",

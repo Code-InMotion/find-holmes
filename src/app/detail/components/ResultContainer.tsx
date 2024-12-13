@@ -12,6 +12,7 @@ import { usePropertyStore } from "@/store/usePropertyStore";
 import axios from "axios";
 import { PropertyItem } from "@/types/property";
 import { mapHouseType, mapTradeType } from "@/utils/mappingType";
+import { formatToWonUnit } from "@/utils/formatNumber";
 
 export default function ResultContainer() {
   const [map, setMap] = useState<KakaoMap | null>(null);
@@ -38,6 +39,7 @@ export default function ResultContainer() {
           }
         );
         setPropertyData(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log("매물 상세 정보 API 요청 중 에러 발생:", error);
       }
@@ -52,7 +54,7 @@ export default function ResultContainer() {
     }
   }, [map]);
 
-  console.log("propertyData", propertyData);
+  console.log(propertyData);
 
   return (
     <>
@@ -75,8 +77,12 @@ export default function ResultContainer() {
           label="가격"
           value={
             propertyData?.price && propertyData?.rentPrice
-              ? `${propertyData.price}/${propertyData.rentPrice}`
-              : propertyData?.price || propertyData?.rentPrice
+              ? `${formatToWonUnit(propertyData.price)}/${
+                  propertyData.rentPrice
+                }`
+              : propertyData?.price
+              ? formatToWonUnit(propertyData.price)
+              : propertyData?.rentPrice
           }
         />
         <PropertyDetail label="네이버 부동산 링크" value="바로가기" />
