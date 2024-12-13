@@ -43,8 +43,6 @@ export default function PropertyList({ address }: IPropertyListProps) {
           }
         );
 
-        console.log(response.data);
-
         setItems(response.data);
       } catch (error) {
         console.log("property/list API 요청 중 오류 발생", error);

@@ -54,8 +54,6 @@ export default function ResultContainer() {
     }
   }, [map]);
 
-  console.log(propertyData);
-
   return (
     <>
       <div className="w-[400px] h-screen p-[25px] bg-yellow flex flex-col relative">
@@ -98,9 +96,10 @@ export default function ResultContainer() {
       </div>
 
       {/* 오른쪽 지도 섹션 */}
-      <div className="w-full h-full">
-        <Map setMap={setMap} />
-      </div>
+      <Map
+        setMap={setMap}
+        address={`${propertyData?.address} ${propertyData?.addressNumber}`}
+      />
     </>
   );
 }
