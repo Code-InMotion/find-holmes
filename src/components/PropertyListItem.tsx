@@ -3,7 +3,7 @@ import BoxLayout from "./BoxLayout";
 
 interface IPropertyListItem {
   tradeType: string;
-  price: number;
+  price: string;
   rentPrice?: number;
   travelTime: number;
   address: string;

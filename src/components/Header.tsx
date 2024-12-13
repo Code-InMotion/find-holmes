@@ -3,7 +3,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 interface IHeaderProps {
-  children: string;
+  children: React.ReactNode;
 }
 
 export default function Header({ children }: IHeaderProps) {

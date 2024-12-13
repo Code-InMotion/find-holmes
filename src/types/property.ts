@@ -44,7 +44,12 @@ export interface PropertyItem {
   rentPrice: number;
   dealDate: string;
   buildYear: number;
+  buildingName: string;
   exclusiveArea: number;
   distance: number;
   travelTime: number;
+  location?: {
+    x: number;
+    y: number;
+  };
 }
