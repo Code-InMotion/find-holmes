@@ -5,6 +5,7 @@ import axios from "axios";
 import qs from "qs";
 
 import PropertyListItem from "./PropertyListItem";
+import NoItem from "./NoItem";
 
 import { usePropertyStore } from "@/store/usePropertyStore";
 import { PropertyItem } from "@/types/property";
@@ -74,8 +75,7 @@ export default function PropertyList({ address }: IPropertyListProps) {
           />
         ))
       ) : (
-        // 데이터가 없을 경우 메시지 표시
-        <div className="text-center mt-4">매물을 찾을 수 없습니다.</div>
+        <NoItem />
       )}
     </>
   );
