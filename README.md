@@ -25,7 +25,7 @@
 - `Next.JS`, `Tailwind CSS`, `Zustand`, `Storybook`
 
 ### Back-End
-- 
+- `Spring Boot`, `Kotlin`, `AWS`, `MongoDB`
 
 </br>
 
